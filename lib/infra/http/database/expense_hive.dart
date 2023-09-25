@@ -1,7 +1,7 @@
 import 'package:hive/hive.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 
-import '../../models/hive_model/expense_model_hive.dart';
+import '../../../data/models/hive_model/expense_model_hive.dart';
 
 abstract class ExpenseRepository {
   Future<List<ExpenseModelHive>> getAllExpenses();

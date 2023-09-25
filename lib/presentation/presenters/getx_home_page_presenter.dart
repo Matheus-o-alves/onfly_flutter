@@ -7,7 +7,7 @@ import 'package:onfly_flutter/data/models/expense_model.dart';
 import 'package:onfly_flutter/data/models/hive_model/expense_model_hive.dart';
 import 'package:onfly_flutter/data/usecases/add_expense_remote.dart';
 
-import '../../data/usecases/hive_usecases/expense_hive.dart';
+import '../../infra/http/database/expense_hive.dart';
 import '../../data/usecases/remote_list_expense.dart';
 import '../../ui/pages/expense/expense_page.dart';
 

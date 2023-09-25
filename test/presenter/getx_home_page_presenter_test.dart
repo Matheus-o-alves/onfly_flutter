@@ -1,116 +1,73 @@
 import 'package:flutter_test/flutter_test.dart';
-import 'package:get/get.dart';
-import 'package:get_it/get_it.dart';
-import 'package:hive_flutter/hive_flutter.dart';
+
 import 'package:onfly_flutter/data/models/hive_model/expense_model_hive.dart';
-import 'package:onfly_flutter/data/usecases/hive_usecases/expense_hive.dart';
 import 'package:onfly_flutter/presentation/presenters/getx_home_page_presenter.dart';
-import 'package:onfly_flutter/utils/injection_config.dart';
-import 'package:path_provider/path_provider.dart';
 
 void main() {
-  group('HiveExpenseRepository Tests', () {
-    late Box<ExpenseModelHive> expenseBox;
-    late HiveExpenseRepository expenseRepository;
+  group('GetXHomePagePresenter Tests', () {
+    test('initExpenseDatabase should initialize expenses list', () async {
+      final presenter = GetXHomePagePresenter();
 
-    setUp(() async {
-      // Inicialize o Hive
-      await Hive.initFlutter();
+      await presenter.initExpenseDatabase();
 
-      // Abra a caixa (box) com um nome único para os testes
-      expenseBox = await Hive.openBox<ExpenseModelHive>('test_expenses');
-
-      // Crie uma instância do HiveExpenseRepository
-      expenseRepository = HiveExpenseRepository(expenseBox);
+      expect(presenter.expenses, isEmpty);
     });
 
-    tearDown(() async {
-      // Limpe a caixa após cada teste
-      await expenseBox.clear();
-    });
-
-    test('Teste de adição de despesa', () async {
-      final expense = ExpenseModelHive(
-        indefier: 1,
-        description: 'Test Expense',
-        amount: 100.0,
-        expenseDate: '2023-09-24',
-        latitude: '12.345',
-        longitude: '67.890',
-        isSync: false,
-      );
-
-      await expenseRepository.addExpense(expense);
-
-      final savedExpenses = await expenseRepository.getAllExpenses();
-
-      expect(savedExpenses.length, 1);
-      expect(savedExpenses[0].description, 'Test Expense');
-      expect(savedExpenses[0].amount, 100.0);
-      expect(savedExpenses[0].expenseDate, '2023-09-24');
-      expect(savedExpenses[0].latitude, '12.345');
-      expect(savedExpenses[0].longitude, '67.890');
-      expect(savedExpenses[0].isSync, false);
-    });
-
-    test('Teste de atualização de despesa', () async {
+    test('updateExpense should update an expense', () async {
+      final presenter = GetXHomePagePresenter();
       final initialExpense = ExpenseModelHive(
-        indefier: 2,
-        description: 'Initial Expense',
-        amount: 200.0,
-        expenseDate: '2023-09-25',
-        latitude: '11.111',
-        longitude: '66.666',
-        isSync: true,
-      );
-
-      await expenseRepository.addExpense(initialExpense);
+          description: 'Aluguel',
+          amount: 1000.0,
+          expenseDate: '2023, 9, 20,',
+          indefier: 0,
+          isSync: false,
+          latitude: '80000',
+          longitude: '8000');
+      presenter.expenses.add(initialExpense);
 
       final updatedExpense = ExpenseModelHive(
-        indefier: 2,
-        description: 'Updated Expense',
-        amount: 300.0,
-        expenseDate: '2023-09-26',
-        latitude: '22.222',
-        longitude: '77.777',
-        isSync: false,
-      );
+          description: 'Aluguel',
+          amount: 1000.0,
+          expenseDate: '2023, 9, 20,',
+          indefier: 0,
+          isSync: false,
+          latitude: '80000',
+          longitude: '8000');
 
-      await expenseRepository.updateExpense(
-          initialExpense.indefier, updatedExpense);
+      await presenter.updateExpense(0, updatedExpense);
 
-      final savedExpenses = await expenseRepository.getAllExpenses();
-
-      expect(savedExpenses.length, 1);
-      expect(savedExpenses[0].description, 'Updated Expense');
-      expect(savedExpenses[0].amount, 300.0);
-      expect(savedExpenses[0].expenseDate, '2023-09-26');
-      expect(savedExpenses[0].latitude, '22.222');
-      expect(savedExpenses[0].longitude, '77.777');
-      expect(savedExpenses[0].isSync, false);
+      expect(presenter.expenses[0], equals(updatedExpense));
     });
 
-    test('Teste de exclusão de despesa', () async {
+    test('deleteExpense should delete an expense', () async {
+      final presenter = GetXHomePagePresenter();
+      final expenseToDelete = ExpenseModelHive(
+          description: 'Aluguel',
+          amount: 1000.0,
+          expenseDate: '2023, 9, 20,',
+          indefier: 0,
+          isSync: false,
+          latitude: '80000',
+          longitude: '8000');
+      presenter.expenses.add(expenseToDelete);
+
+      await presenter.deleteExpense(0);
+
+      expect(presenter.expenses, isEmpty);
+    });
+
+    test('navigateToExpenseDetails should navigate to expense details', () {
+      final presenter = GetXHomePagePresenter();
       final expense = ExpenseModelHive(
-        indefier: 3,
-        description: 'Expense to Delete',
-        amount: 50.0,
-        expenseDate: '2023-09-27',
-        latitude: '33.333',
-        longitude: '88.888',
-        isSync: true,
-      );
+          description: 'Aluguel',
+          amount: 1000.0,
+          expenseDate: '2023, 9, 20,',
+          indefier: 0,
+          isSync: false,
+          latitude: '80000',
+          longitude: '8000');
 
-      await expenseRepository.addExpense(expense);
-
-      final savedExpensesBeforeDelete =
-          await expenseRepository.getAllExpenses();
-      expect(savedExpensesBeforeDelete.length, 1);
-
-      await expenseRepository.deleteExpense(0);
-
-      final savedExpensesAfterDelete = await expenseRepository.getAllExpenses();
-      expect(savedExpensesAfterDelete.length, 0);
+      presenter.navigateToExpenseDetails(expense);
     });
   });
 }

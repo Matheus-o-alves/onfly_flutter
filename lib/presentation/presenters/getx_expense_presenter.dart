@@ -3,7 +3,7 @@ import 'package:get_it/get_it.dart';
 import 'package:onfly_flutter/ui/pages/home/home_page.dart';
 
 import '../../data/models/hive_model/expense_model_hive.dart';
-import '../../data/usecases/hive_usecases/expense_hive.dart';
+import '../../infra/http/database/expense_hive.dart';
 
 class GetXExpensePresenter extends GetxController {
   final ExpenseRepository _expenseRepository = GetIt.I.get<ExpenseRepository>();
