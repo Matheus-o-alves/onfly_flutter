@@ -11,7 +11,7 @@ Clone this repository to your local machine using the following command:
 
 bash
 Copy code
-git clone https://github.com/your-username/travel-expense-manager.git
+git clone https://github.com/Matheus-o-alves/onfly_flutter.git
 Navigate to the project directory:
 
 bash
