@@ -27,21 +27,22 @@ Create a .env file in the project root directory and add your API key or other c
 
 Run the application using Flutter:
 
-##Copy code
+#Copy code
 flutter run
 The app should now be running on your emulator or physical device.
 
 Summary of Approaches, Technologies, and Packages Used:
-http: Used for making API requests.
-get: A state management library for Flutter.
-path_provider: Provides access to the device's file system.
-flutter_dotenv: Used for managing environment variables.
-hive: A lightweight and fast NoSQL database for Flutter.
-hive_flutter: Hive's Flutter-specific implementation.
-get_it: A simple service locator for Dart and Flutter.
-build_runner: Used for code generation.
-hive_generator: Code generation for Hive.
-shared_preferences: Used for storing small amounts of data locally.
+
+- http: Used for making API requests.
+- get: A state management library for Flutter.
+- path_provider: Provides access to the device's file system.
+- flutter_dotenv: Used for managing environment variables.
+- hive: A lightweight and fast NoSQL database for Flutter.
+- hive_flutter: Hive's Flutter-specific implementation.
+- get_it: A simple service locator for Dart and Flutter.
+- build_runner: Used for code generation.
+- hive_generator: Code generation for Hive.
+- shared_preferences: Used for storing small amounts of data locally.
 
 ## Getting Started
 
